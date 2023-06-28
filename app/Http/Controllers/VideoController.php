@@ -13,16 +13,12 @@ class VideoController extends Controller
   //
   public function index()
   {
-
     // 定数から呼ぶ場合
     $appName = config('constants.APP_NAME');
     $apiVersion = config('constants.API_VERSION');
     $maxUploadSize = config('constants.MAX_UPLOAD_SIZE');
 
     $app = config('constants.APP');
-
-    // $videos = Video::all();
-    // return response()->json($videos);
 
     // こういったデータを、DBから取得したい
 
@@ -60,6 +56,23 @@ class VideoController extends Controller
 
     return response()->json($response);
   }
+
+  /** DBからデータを取得したい */
+  public function getVideoTest()
+  {
+    // ユーザーを取得する処理など
+    $video = Video::all();
+    return response()->json($video);
+  }
+
+      // レスポンスの作成
+    // $response = new VideoDetailResponse();
+    // $response->code = $video->code;
+    // $response->videoId = $video->videoId;
+    // $response->title = $video->title;
+    // $response->imgSrc = $video->imgSrc;
+
+    // return response()->json($response);
 
 
   // videoの一覧表示

@@ -1,11 +1,17 @@
 # 動画教材サンプルWEBサービス
 
+## フロントエンド側
+https://github.com/kemmy-km/nuxt3-video-learning
+
 ## 現状
 - フロント側からAPI取得できる状態にした
+- PostgreSQLと接続できるようにした
+- DBにSeedでサンプルデータを投入できるようにした
 
 ## 今後やりたいこと
-- bladeテンプレートでフロントを表現
 - bladeではなく、APIでフロント側のNuxtプロジェクトにAPIとして渡すようにする
+- VideoとCourseの関係を明確化する
+- AWSの環境にデプロイ
 
 ## メモ
 APIは、下記の記述でアクセス可能
@@ -14,8 +20,6 @@ APIは、下記の記述でアクセス可能
 Route::get('/videos', [VideoController::class, 'index']);
 // http://127.0.0.1:8000/api/videos
 ```
-
-
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 

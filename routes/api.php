@@ -20,6 +20,8 @@ Route::get('/test2', function () {
 // DBを作成して接続できたらこちらを使用したい
 Route::get('/videos/{id}', [VideoController::class, 'getVideo']);
 
+Route::get('/videos2', [VideoController::class, 'getVideoTest']);
+
 // コース一覧
 Route::get('/courses', [CourseController::class, 'index']);
 // コース詳細：サンプル
