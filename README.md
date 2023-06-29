@@ -7,14 +7,39 @@ https://github.com/kemmy-km/nuxt3-video-learning
 - フロント側からAPI取得できる状態にした
 - PostgreSQLと接続できるようにした
 - DBにSeedでサンプルデータを投入できるようにした
+- コーステーブルのデータをコントローラに引っ張れるようにした
+- ひとまず、コースの一覧ページにDBから引っ張ってきたデータをフロントで表示できるようにした
 
 ## 今後やりたいこと
 - bladeではなく、APIでフロント側のNuxtプロジェクトにAPIとして渡すようにする
 - VideoとCourseの関係を明確化する
-- AWSの環境にデプロイ
+- 動画がコースに所属させるようにし、特定のコースに所属する動画データを取得できるようにしたい
+- フロントにResponseを返す際に、スネークケースからキャメルケースに変えられるようにする
+- フロントをgithubPagesにデプロイしたい
+- バックエンドを、AWSの環境にデプロイ
+- サンプルデータなどをコントローラ直書きではなく、別の箇所から呼び出せるようにしたい
 
 ## メモ
 APIは、下記の記述でアクセス可能
+
+
+```sh
+# migrateを全てリセットする場合
+php artisan migrate
+
+# Seeder作成
+php artisan make:seeder Seeder名
+
+# Seeding
+php artisan make:seeder SeederName
+
+# seed
+php artisan db:seed
+php artisan db:seed --class=CourseSeeder
+php artisan db:seed --class=VideoSeeder
+
+```
+
 
 ```php:api.php
 Route::get('/videos', [VideoController::class, 'index']);

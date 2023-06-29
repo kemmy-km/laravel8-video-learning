@@ -26,15 +26,15 @@ class VideoController extends Controller
     $sampleData = [
       [
         'code' => '1',
-        'videoId' => '832017580',
+        'videoNumber' => '832017580',
         'title' => 'サンプル動画タイトル',
-        'imgSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
+        'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
       ],
       // [
       //   'code' => '2',
-      //   'videoId' => '832017580',
+      //   'videoNumber' => '832017580',
       //   'title' => 'サンプル動画タイトル2',
-      //   'imgSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
+      //   'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
       // ],
     ];
 
@@ -50,9 +50,9 @@ class VideoController extends Controller
     // レスポンスの作成
     $response = new VideoDetailResponse();
     $response->code = $video->code;
-    $response->videoId = $video->videoId;
+    $response->videoNumber = $video->videoNumber;
     $response->title = $video->title;
-    $response->imgSrc = $video->imgSrc;
+    $response->imageSrc = $video->imageSrc;
 
     return response()->json($response);
   }
@@ -62,15 +62,22 @@ class VideoController extends Controller
   {
     // ユーザーを取得する処理など
     $video = Video::all();
+    // dd($video[0]);
+    // dd(response()->json($video[0]));
     return response()->json($video);
+
+    // $camelCasedVideos = $video->map(function ($video) {
+    //     return $video->camelKeys();
+    // });
+    // return response()->json($camelCasedVideos, 200, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
   }
 
       // レスポンスの作成
     // $response = new VideoDetailResponse();
     // $response->code = $video->code;
-    // $response->videoId = $video->videoId;
+    // $response->videoNumber = $video->videoNumber;
     // $response->title = $video->title;
-    // $response->imgSrc = $video->imgSrc;
+    // $response->imageSrc = $video->imageSrc;
 
     // return response()->json($response);
 

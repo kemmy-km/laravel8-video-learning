@@ -23,7 +23,7 @@ class Video extends Model
     protected $fillable = [
         'title',
         'video_code',
-        'img_src',
+        'image_src',
     ];
 
     // リレーションシップの定義など

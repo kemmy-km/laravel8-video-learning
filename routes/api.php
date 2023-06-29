@@ -27,3 +27,4 @@ Route::get('/courses', [CourseController::class, 'index']);
 // コース詳細：サンプル
 Route::get('/course/{id}', [CourseController::class, 'getCourse']);
 
+Route::get('/courses2', [CourseController::class, 'getCourseTest']);

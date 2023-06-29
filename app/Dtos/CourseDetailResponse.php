@@ -7,13 +7,13 @@ class CourseDetailResponse
   /** 動画コード */
   public string $code;
   /** コースコード */
-  // public string $courseCode;
+  // public string $courseId;
 
   /** コースタイトル */
   public string $title;
 
   /** サムネイル画像 */
-  public string $imgSrc;
+  public string $imageSrc;
 }
 
 // NOTE コントローラで使用する場合

@@ -9,16 +9,16 @@ class VideoDetailResponse
   /** 動画コード */
   public string $code;
   /** コースコード */
-  // public string $courseCode;
+  // public string $courseId;
 
   /** vimeoID */
-  public string $videoId;
+  public string $videoNumber;
 
   /** 動画タイトル */
   public string $title;
 
   /** サムネイル画像 */
-  public string $imgSrc;
+  public string $imageSrc;
 }
 
 // NOTE コントローラで使用する場合

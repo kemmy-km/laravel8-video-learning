@@ -7,7 +7,7 @@ class VideoDetailRequest
     /** 動画コード */
     public string $code;
     /** コースコード */
-    public string $courseCode;
+    public string $courseId;
 }
 
 // NOTE コントローラで使用する場合

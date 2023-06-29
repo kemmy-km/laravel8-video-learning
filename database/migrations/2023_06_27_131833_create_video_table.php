@@ -17,9 +17,11 @@ class CreateVideoTable extends Migration
             // $table->id('video_code');
             // $table->string('video_code')->unique();
             $table->bigIncrements('video_code');
-            $table->string('video_id')->unique();
+            $table->unsignedBigInteger('course_id');
+            $table->foreign('course_id')->references('course_id')->on('course');
+            $table->string('video_number')->unique();
             $table->string('title');
-            $table->string('img_src');
+            $table->string('image_src');
             $table->timestamps();
         });
     }

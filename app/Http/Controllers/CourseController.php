@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
+use App\Models\Course;
 use App\Dtos\CourseDetailResponse;
 use App\Video;
 use Illuminate\Http\JsonResponse;
@@ -22,24 +22,24 @@ class CourseController extends Controller
     /** @var \App\Dtos\CourseDetailResponse[] $sampleData */
     $sampleData = [
       [
-        'code' => '1',
+        'course_id' => '1',
         'title' => 'サンプルコースタイトル',
-        'imgSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
+        'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
       ],
       [
         'code' => '2',
         'title' => 'サンプルコースタイトル2',
-        'imgSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
+        'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
       ],
       [
         'code' => '3',
         'title' => 'サンプルコースタイトル3',
-        'imgSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
+        'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
       ],
       [
         'code' => '4',
         'title' => 'サンプルコースタイトル4',
-        'imgSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
+        'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
       ],
     ];
 
@@ -53,7 +53,7 @@ class CourseController extends Controller
     $course = [
         'code' => '1',
         'title' => 'サンプルコースタイトル',
-        'imgSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
+        'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
     ];
     return response()->json($course);
 
@@ -64,8 +64,21 @@ class CourseController extends Controller
     // $response->code = $course->code;
     // $response->CourseId = $course->CourseId;
     // $response->title = $course->title;
-    // $response->imgSrc = $course->imgSrc;
+    // $response->imageSrc = $course->imageSrc;
 
     // return response()->json($response);
+  }
+
+  /** DBからデータを取得したい */
+  public function getCourseTest()
+  {
+    // ユーザーを取得する処理など
+    $course = Course::all();
+    return response()->json($course);
+
+    // $camelCasedVideos = $video->map(function ($video) {
+    //     return $video->camelKeys();
+    // });
+    // return response()->json($camelCasedVideos, 200, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
   }
 }
