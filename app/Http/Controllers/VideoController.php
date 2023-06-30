@@ -43,7 +43,7 @@ class VideoController extends Controller
 
   /** DBからデータを取得したい */
   /** @var \Illuminate\Support\Collection $responseVideos */
-  public function getVideoTest(): JsonResponse
+  public function getVideos(): JsonResponse
   {
     // ユーザーを取得する処理など
     $videos = Video::all();
