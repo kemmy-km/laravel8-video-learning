@@ -7,9 +7,10 @@ namespace App\Dtos;
 class VideoDetailResponse
 {
   /** 動画コード */
-  public string $code;
-  /** コースコード */
-  // public string $courseId;
+  public string $videoCode;
+
+  /** コースID */
+  public string $courseId;
 
   /** vimeoID */
   public string $videoNumber;

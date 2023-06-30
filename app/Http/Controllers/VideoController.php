@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Video;
 use App\Dtos\VideoDetailResponse;
 use Illuminate\Http\JsonResponse;
+use App\Constants\SampleData;
 
 use Illuminate\Http\Request;
 
@@ -14,30 +15,13 @@ class VideoController extends Controller
   public function index()
   {
     // 定数から呼ぶ場合
-    $appName = config('constants.APP_NAME');
-    $apiVersion = config('constants.API_VERSION');
-    $maxUploadSize = config('constants.MAX_UPLOAD_SIZE');
-
-    $app = config('constants.APP');
-
-    // こういったデータを、DBから取得したい
+    // $appName = config('constants.APP_NAME');
+    // $apiVersion = config('constants.API_VERSION');
+    // $maxUploadSize = config('constants.MAX_UPLOAD_SIZE');
+    // $app = config('constants.APP');
 
     /** @var \App\Dtos\VideoDetailResponse[] $sampleData */
-    $sampleData = [
-      [
-        'code' => '1',
-        'videoNumber' => '832017580',
-        'title' => 'サンプル動画タイトル',
-        'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
-      ],
-      // [
-      //   'code' => '2',
-      //   'videoNumber' => '832017580',
-      //   'title' => 'サンプル動画タイトル2',
-      //   'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
-      // ],
-    ];
-
+    $sampleData = SampleData::$videos;
     return response()->json($sampleData);
   }
 
@@ -49,7 +33,7 @@ class VideoController extends Controller
 
     // レスポンスの作成
     $response = new VideoDetailResponse();
-    $response->code = $video->code;
+    $response->videoCode = $video->code;
     $response->videoNumber = $video->videoNumber;
     $response->title = $video->title;
     $response->imageSrc = $video->imageSrc;
@@ -58,29 +42,42 @@ class VideoController extends Controller
   }
 
   /** DBからデータを取得したい */
-  public function getVideoTest()
+  /** @var \Illuminate\Support\Collection $responseVideos */
+  public function getVideoTest(): JsonResponse
   {
     // ユーザーを取得する処理など
-    $video = Video::all();
-    // dd($video[0]);
-    // dd(response()->json($video[0]));
-    return response()->json($video);
+    $videos = Video::all();
 
-    // $camelCasedVideos = $video->map(function ($video) {
-    //     return $video->camelKeys();
-    // });
-    // return response()->json($camelCasedVideos, 200, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    $responseVideos = $videos->map(function ($video) {
+        return [
+            'videoCode' => $video->video_code,
+            'courseId' => $video->course_id,
+            'videoNumber' => $video->video_number,
+            'title' => $video->title,
+            'imageSrc' => $video->image_src,
+        ];
+    });
+    return response()->json($responseVideos);
   }
 
-      // レスポンスの作成
-    // $response = new VideoDetailResponse();
-    // $response->code = $video->code;
-    // $response->videoNumber = $video->videoNumber;
-    // $response->title = $video->title;
-    // $response->imageSrc = $video->imageSrc;
+  /** 特定のコースIDに所属する動画を取得して返す */
+  public function getVideosByCourseId($courseId): JsonResponse
+  {
+    $videos = Video::where('course_id', $courseId)->get();
 
-    // return response()->json($response);
+    // キーをキャメルケースにした上でResponseする
+    $responseVideos = $videos->map(function ($video) {
+      return [
+          'videoCode' => $video->video_code,
+          'courseId' => $video->course_id,
+          'videoNumber' => $video->video_number,
+          'title' => $video->title,
+          'imageSrc' => $video->image_src,
+      ];
+    });
 
+    return response()->json($responseVideos);
+  }
 
   // videoの一覧表示
   // 動画一覧ページ
