@@ -28,17 +28,33 @@ class VideoController extends Controller
   /** 動画視聴 */
   public function getVideo($id): JsonResponse
   {
+    // IDと一致するレコードを取得
+    $video = Video::where('video_code', $id)->first();
+
+    if (!$video) {
+      return response()->json(['message' => 'Video not found'], 404);
+    }
+
+    $responseVideo = [
+        'videoCode' => $video->video_code,
+        'courseId' => $video->course_id,
+        'videoNumber' => $video->video_number,
+        'title' => $video->title,
+        'imageSrc' => $video->image_src,
+    ];
+    return response()->json($responseVideo);
+
     // ユーザーを取得する処理など
-    $video = Video::find($id);
+    // $video = Video::find($id);
 
-    // レスポンスの作成
-    $response = new VideoDetailResponse();
-    $response->videoCode = $video->code;
-    $response->videoNumber = $video->videoNumber;
-    $response->title = $video->title;
-    $response->imageSrc = $video->imageSrc;
+    // // レスポンスの作成
+    // $response = new VideoDetailResponse();
+    // $response->videoCode = $video->code;
+    // $response->videoNumber = $video->videoNumber;
+    // $response->title = $video->title;
+    // $response->imageSrc = $video->imageSrc;
 
-    return response()->json($response);
+    // return response()->json($response);
   }
 
   /** DBからデータを取得したい */

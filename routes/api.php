@@ -13,7 +13,7 @@ Route::get('/videos', [VideoController::class, 'index']);
 // http://127.0.0.1:8000/api/videos
 
 // DBを作成して接続できたらこちらを使用したい
-Route::get('/videos/{id}', [VideoController::class, 'getVideo']);
+Route::get('/video/{id}', [VideoController::class, 'getVideo']);
 
 Route::get('/videos2', [VideoController::class, 'getVideos']);
 
