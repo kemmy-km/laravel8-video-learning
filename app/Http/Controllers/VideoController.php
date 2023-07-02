@@ -81,6 +81,8 @@ class VideoController extends Controller
   {
     $videos = Video::where('course_id', $courseId)->get();
 
+    // また、コース名もResponseに含めた方がいいかもしれない
+
     // キーをキャメルケースにした上でResponseする
     $responseVideos = $videos->map(function ($video) {
       return [

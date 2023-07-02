@@ -21,21 +21,22 @@ class CourseController extends Controller
     /** コース取得 */
     public function getCourseById($id): JsonResponse
     {
-        // ユーザーを取得する処理など
-        $courses = Course::all();
+        $course = Course::where('course_id', $id)->first();
 
-        $responseCourses = $courses->map(function ($course) {
-          return [
-              'courseId' => $course->course_id,
-              'name' => $course->name,
-              'difficulty' => $course->difficulty,
-              'leadSentence' => $course->lead_sentence,
-              'createdAt' => $course->created_at,
-              'updatedAt' => $course->updated_at,
-              'imageSrc' => $course->image_src,
-          ];
-        });
-        return response()->json($responseCourses);
+        if (!$course) {
+          return response()->json(['message' => 'Video not found'], 404);
+        }
+
+        $responseCourse = [
+            'courseId' => $course->course_id,
+            'name' => $course->name,
+            'difficulty' => $course->difficulty,
+            'leadSentence' => $course->lead_sentence,
+            'createdAt' => $course->created_at,
+            'updatedAt' => $course->updated_at,
+            'imageSrc' => $course->image_src,
+        ];
+        return response()->json($responseCourse);
 
         // $course = Course::find($id);
 
