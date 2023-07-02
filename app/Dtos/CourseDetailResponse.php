@@ -5,12 +5,16 @@ namespace App\Dtos;
 class CourseDetailResponse
 {
   /** 動画コード */
-  public string $code;
-  /** コースコード */
-  // public string $courseId;
+  public string $videoCode;
+
+  /** コースID */
+  public string $courseId;
 
   /** コースタイトル */
   public string $title;
+
+  /** 動画の概要 */
+  public string $overview;
 
   /** サムネイル画像 */
   public string $imageSrc;

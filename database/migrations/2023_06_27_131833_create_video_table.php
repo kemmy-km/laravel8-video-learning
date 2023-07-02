@@ -21,6 +21,7 @@ class CreateVideoTable extends Migration
             $table->foreign('course_id')->references('course_id')->on('course');
             $table->string('video_number')->unique();
             $table->string('title');
+            $table->string('overview');
             $table->string('image_src');
             $table->timestamps();
         });

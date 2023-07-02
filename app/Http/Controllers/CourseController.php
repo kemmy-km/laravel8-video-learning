@@ -18,7 +18,11 @@ class CourseController extends Controller
         return response()->json($sampleData);
     }
 
-    /** コース取得 */
+    /**
+     * コース取得
+     *
+     * @path /course/{id}
+     */
     public function getCourseById($id): JsonResponse
     {
         $course = Course::where('course_id', $id)->first();
@@ -50,7 +54,11 @@ class CourseController extends Controller
         // return response()->json($response);
     }
 
-    /** DBから一覧のデータを取得したい */
+    /**
+     * DBから一覧のデータを取得したい
+     *
+     * @path /courses2
+     */
     public function getCourses(): JsonResponse
     {
         // ユーザーを取得する処理など

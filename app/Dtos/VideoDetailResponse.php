@@ -18,6 +18,9 @@ class VideoDetailResponse
   /** 動画タイトル */
   public string $title;
 
+  /** 動画の概要 */
+  public string $overview;
+
   /** サムネイル画像 */
   public string $imageSrc;
 }

@@ -40,7 +40,10 @@ class VideoController extends Controller
         'courseId' => $video->course_id,
         'videoNumber' => $video->video_number,
         'title' => $video->title,
+        'overview' => $video->overview,
         'imageSrc' => $video->image_src,
+        'createdAt' => $video->created_at,
+        'updatedAt' => $video->updated_at,
     ];
     return response()->json($responseVideo);
 
@@ -70,13 +73,20 @@ class VideoController extends Controller
             'courseId' => $video->course_id,
             'videoNumber' => $video->video_number,
             'title' => $video->title,
+            'overview' => $video->overview,
             'imageSrc' => $video->image_src,
+            'createdAt' => $video->created_at,
+            'updatedAt' => $video->updated_at,
         ];
     });
     return response()->json($responseVideos);
   }
 
-  /** 特定のコースIDに所属する動画を取得して返す */
+  /**
+   * 特定のコースIDに所属する動画を取得して返す
+   *
+   * @path /course/videos/{courseId}
+   */
   public function getVideosByCourseId($courseId): JsonResponse
   {
     $videos = Video::where('course_id', $courseId)->get();
@@ -90,7 +100,10 @@ class VideoController extends Controller
           'courseId' => $video->course_id,
           'videoNumber' => $video->video_number,
           'title' => $video->title,
+          'overview' => $video->overview,
           'imageSrc' => $video->image_src,
+          'createdAt' => $video->created_at,
+          'updatedAt' => $video->updated_at,
       ];
     });
 

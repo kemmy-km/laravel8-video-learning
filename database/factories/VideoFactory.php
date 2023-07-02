@@ -21,6 +21,7 @@ class VideoFactory extends Factory
             'video_code' => $this->faker->numberBetween(0, 999999),
             'video_number' => $this->faker->numberBetween(000000000, 9999999999),
             'title' => $this->faker->name,
+            'overview' => $this->faker->name,
             'image_src' => $this->faker->url,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

@@ -43,6 +43,7 @@ class SampleData
       'courseId' => 1,
       'videoNumber' => '832017580',
       'title' => 'サンプルビデオ1',
+      'overview' => '動画の概要です。',
       'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
     ],
     [
@@ -50,6 +51,7 @@ class SampleData
       'courseId' => 2,
       'videoNumber' => '838454524',
       'title' => 'サンプルビデオ2',
+      'overview' => '動画の概要です。',
       'imageSrc' => 'https://thumb.photo-ac.com/42/42afd1bda88d88af5323f0b8a84620ff_t.jpeg',
     ],
   ];
