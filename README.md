@@ -7,6 +7,9 @@
 ## フロントエンド側
 https://github.com/kemmy-km/nuxt3-video-learning
 
+## vimeo
+https://vimeo.com/
+
 ## 現状
 - フロント側からAPI取得できる状態にした
 - PostgreSQLと接続できるようにした

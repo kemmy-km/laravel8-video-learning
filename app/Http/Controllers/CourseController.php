@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 use App\Constants\SampleData;
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
+
 class CourseController extends Controller
 {
     // コース一覧取得
@@ -36,9 +38,9 @@ class CourseController extends Controller
             'name' => $course->name,
             'difficulty' => $course->difficulty,
             'leadSentence' => $course->lead_sentence,
-            'createdAt' => $course->created_at,
-            'updatedAt' => $course->updated_at,
             'imageSrc' => $course->image_src,
+            'createdAt' => Carbon::parse($course->created_at)->format('Y-m-d-H:i:s'),
+            'updatedAt' => Carbon::parse($course->updated_at)->format('Y-m-d-H:i:s'),
         ];
         return response()->json($responseCourse);
 
@@ -70,9 +72,9 @@ class CourseController extends Controller
               'name' => $course->name,
               'difficulty' => $course->difficulty,
               'leadSentence' => $course->lead_sentence,
-              'createdAt' => $course->created_at,
-              'updatedAt' => $course->updated_at,
               'imageSrc' => $course->image_src,
+              'createdAt' => Carbon::parse($course->created_at)->format('Y-m-d-H:i:s'),
+              'updatedAt' => Carbon::parse($course->updated_at)->format('Y-m-d-H:i:s'),
           ];
         });
         return response()->json($responseCourses);

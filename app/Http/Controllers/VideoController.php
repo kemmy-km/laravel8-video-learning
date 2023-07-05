@@ -7,6 +7,8 @@ use App\Dtos\VideoDetailResponse;
 use Illuminate\Http\JsonResponse;
 use App\Constants\SampleData;
 
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
@@ -75,8 +77,8 @@ class VideoController extends Controller
             'title' => $video->title,
             'overview' => $video->overview,
             'imageSrc' => $video->image_src,
-            'createdAt' => $video->created_at,
-            'updatedAt' => $video->updated_at,
+            'createdAt' => Carbon::parse($video->created_at)->format('Y-m-d-H:i:s'),
+            'updatedAt' => Carbon::parse($video->updated_at)->format('Y-m-d-H:i:s'),
         ];
     });
     return response()->json($responseVideos);
@@ -102,8 +104,8 @@ class VideoController extends Controller
           'title' => $video->title,
           'overview' => $video->overview,
           'imageSrc' => $video->image_src,
-          'createdAt' => $video->created_at,
-          'updatedAt' => $video->updated_at,
+          'createdAt' => Carbon::parse($video->created_at)->format('Y-m-d-H:i:s'),
+          'updatedAt' => Carbon::parse($video->updated_at)->format('Y-m-d-H:i:s'),
       ];
     });
 
