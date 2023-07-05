@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Video;
+use App\Models\Course;
 use App\Dtos\VideoDetailResponse;
 use Illuminate\Http\JsonResponse;
 use App\Constants\SampleData;
@@ -44,8 +45,8 @@ class VideoController extends Controller
         'title' => $video->title,
         'overview' => $video->overview,
         'imageSrc' => $video->image_src,
-        'createdAt' => $video->created_at,
-        'updatedAt' => $video->updated_at,
+        'createdAt' => Carbon::parse($video->created_at)->format('Y-m-d-H:i:s'),
+        'updatedAt' => Carbon::parse($video->updated_at)->format('Y-m-d-H:i:s'),
     ];
     return response()->json($responseVideo);
 
@@ -92,8 +93,7 @@ class VideoController extends Controller
   public function getVideosByCourseId($courseId): JsonResponse
   {
     $videos = Video::where('course_id', $courseId)->get();
-
-    // また、コース名もResponseに含めた方がいいかもしれない
+    $course = Course::findOrFail($courseId);
 
     // キーをキャメルケースにした上でResponseする
     $responseVideos = $videos->map(function ($video) {
@@ -109,10 +109,14 @@ class VideoController extends Controller
       ];
     });
 
-    return response()->json($responseVideos);
+    // コース名もResponseに含める
+    $responseData = [
+        'courseName' => $course->name,
+        'videoList' => $responseVideos,
+    ];
+    return response()->json($responseData);
   }
 
-  // videoの一覧表示
   // 動画一覧ページ
   // ステップページ？
   // 視聴履歴ボタンの押下時に起動
