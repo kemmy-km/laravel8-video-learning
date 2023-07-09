@@ -4,6 +4,16 @@
 - Laravel Framework 8.83.27
 - PHP 7.4.33
 
+## DB
+DB_CONNECTION=pgsql
+DB_PORT=5432
+DB_HOST=127.0.0.1
+DB_DATABASE=video_learning
+DB_USERNAME=sample_user
+DB_PASSWORD=sample_pass
+
+psql -h 127.0.0.1 -p 5432 -U sample_user -d video_learning
+
 ## フロントエンド側
 https://github.com/kemmy-km/nuxt3-video-learning
 
@@ -51,6 +61,50 @@ php artisan db:seed --class=VideoSeeder
 ```php:api.php
 Route::get('/videos', [VideoController::class, 'index']);
 // http://127.0.0.1:8000/api/videos
+```
+
+## いらないコード
+
+```php
+<?php
+
+// database/migrations/2019_12_14_000001_create_personal_access_tokens_table.php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePersonalAccessTokensTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('tokenable');
+            $table->string('name');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('personal_access_tokens');
+    }
+}
+
 ```
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
