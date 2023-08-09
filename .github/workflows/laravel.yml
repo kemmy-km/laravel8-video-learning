@@ -1,0 +1,64 @@
+name: Laravel
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Copy .env
+        run: cp .env.example .env
+
+      - name: Generate App Key
+        run: php artisan key:generate
+
+      - name: Run Laravel Tests
+        run: vendor/bin/phpunit
+
+  create-artifact:
+    needs: [laravel-tests]
+    runs-on: ubuntu-latest
+    outputs:
+      zip-file-path: ${{ steps.create-artifact.outputs.zip-file-path }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create Artifact Zip
+        run: |
+          composer install --no-dev
+          cp .env.example .env
+          php artisan key:generate
+          php artisan config:cache
+          php artisan route:cache
+          mkdir -p laravel-artifacts
+          cp -R app bootstrap config database public resources routes storage artisan laravel-artifacts/
+
+          # Create a zip file of the artifact
+          zip -r laravel-app.zip laravel-artifacts/
+        working-directory: ${{ github.workspace }}
+
+      - name: Upload Artifact to S3
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
+
+      - name: upload-to-s3
+        run: aws s3 cp laravel-app.zip s3://s3-bucket-by-tf/laravel-app.zip
