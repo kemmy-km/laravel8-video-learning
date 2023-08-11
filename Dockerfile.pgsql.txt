@@ -1,5 +1,5 @@
 # 使用するベースイメージを指定
-FROM php:7.4-apache
+FROM php:8.0-apache
 
 # 必要なパッケージとツールをインストール
 RUN apt-get update && apt-get install -y \
@@ -11,8 +11,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # PHPの拡張モジュールをインストール
-# RUN docker-php-ext-install pdo_pgsql zip
-RUN docker-php-ext-install pdo pgsql pdo_pgsql zip
+RUN docker-php-ext-install pdo_pgsql zip
 
 # ApacheのUIDとGIDをDockerユーザーのUID/GIDに変更
 RUN usermod -u 1000 www-data \

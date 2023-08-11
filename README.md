@@ -29,6 +29,84 @@ https://vimeo.com/
 ## メモ
 APIは、下記の記述でアクセス可能
 
+## Docker起動
+
+```sh
+docker build -t laravel8-image .
+```
+
+
+```sh
+# ECS Fargateにアクセスするコマンド
+aws ecs execute-command --region ap-northeast-1 --cluster laravel-cluster-by-tf --task 47b38c81ace544c0824f0c79b5cb94e9 --container laravel-app-container-by-tf --interactive --command "/bin/sh"
+```
+
+```sh
+ssh -i ~/.ssh/aws-infra-ssh-key.pem ec2-user@00.00.000.000
+
+ssh -i ~/.ssh/aws-ssh-key-230805.pem ec2-user@54.64.251.14
+```
+
+```sh
+# mysql -u ユーザー名 -p -D データベース名 -h ホスト名またはIPアドレス
+
+mysql -u sample_user -p -D video_learning -h app-db.cqzynshl6n1r.ap-northeast-1.rds.amazonaws.com
+mysql -h ホスト名 -u ユーザー名 -p データベース名
+
+
+psql -h app-db2.cqzynshl6n1r.ap-northeast-1.rds.amazonaws.com -U sample_user -d video_learning
+```
+
+```Dockerfile
+FROM php:7.4-fpm
+
+# 必要なライブラリやツールのインストール
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    zip \
+    unzip
+
+# Composerのインストール
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# PHP拡張モジュールのインストール
+RUN docker-php-ext-configure zip --with-libzip
+RUN docker-php-ext-install pdo pdo_mysql zip
+
+# Laravelアプリケーションのディレクトリを作成
+WORKDIR /var/www/html
+
+# Laravelアプリケーションのファイルをコピー
+COPY . /var/www/html
+
+# Laravelアプリケーションの依存関係をインストール
+RUN composer install
+
+# Laravelアプリケーションの設定ファイルをコピー（必要に応じて）
+# COPY .env.example .env
+
+# Laravelのキャッシュをクリア
+RUN php artisan optimize
+
+# PHP-FPMを起動
+CMD ["php-fpm"]
+```
+
+```yml
+version: "3"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel8-image
+    container_name: laravel8-container
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html/
+```
+
 
 ```sh
 # migrateを全てリセットする場合
@@ -120,4 +198,3 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 # 空commit
 git commit --allow-empty -m "github actions test"
-

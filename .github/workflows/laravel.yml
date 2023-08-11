@@ -3,8 +3,22 @@ name: Laravel
 on:
   push:
     branches: [ "main" ]
+    # paths:
+    #   - ./**
+    #   - .github/workflows/laravel.yaml
   pull_request:
     branches: [ "main" ]
+
+# env:
+#   REPO_NAME: laravel8-video-learning
+#   AWS_REGION: ap-northeast-1
+#   AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+  # IAM_ROLE_ARN: ${{ secrets.IAM_ROLE_CODEBUILD_ARN }}
+  # CODEBUILD_PROJECT: "INPUT_CODEBUILD_PROJECT"
+
+# permissions:
+#   id-token: write
+#   contents: read
 
 jobs:
   laravel-tests:
@@ -41,6 +55,7 @@ jobs:
 
       - name: Create Artifact Zip
         run: |
+          pwd
           composer install --no-dev
           cp .env.example .env
           php artisan key:generate
@@ -48,6 +63,12 @@ jobs:
           php artisan route:cache
           mkdir -p laravel-artifacts
           cp -R app bootstrap config database public resources routes storage artisan laravel-artifacts/
+          cp buildspec.yml laravel-artifacts/
+          cp Dockerfile laravel-artifacts/
+          cp server.php laravel-artifacts/
+          cp composer.json laravel-artifacts/
+          cp .env.example laravel-artifacts/
+          ls
 
           # Create a zip file of the artifact
           zip -r laravel-app.zip laravel-artifacts/
@@ -60,5 +81,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
 
-      - name: upload-to-s3
-        run: aws s3 cp laravel-app.zip s3://s3-bucket-by-tf/laravel-app.zip
+      # - name: upload-to-s3
+      #   run: aws s3 cp laravel-app.zip s3://laravel-s3-bucket-by-tf/laravel-app.zip
