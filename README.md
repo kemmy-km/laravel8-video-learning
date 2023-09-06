@@ -1,4 +1,9 @@
-# 動画教材サンプルWEBサービス
+# 動画教材サンプルWEBサービスのAPIサーバー
+AWS環境にデプロイ済み
+
+## エンドポイント（例）
+- [https://kemmy.tokyo/api/courses](https://kemmy.tokyo/api/courses)
+- [https://kemmy.tokyo/api/course/2](https://kemmy.tokyo/api/course/2)
 
 ## 環境
 - Laravel Framework 8.83.27
@@ -7,130 +12,26 @@
 ## フロントエンド側
 https://github.com/kemmy-km/nuxt3-video-learning
 
-## vimeo
+## vimeoのURL
 https://vimeo.com/
 
-## 現状
-- フロント側からAPI取得できる状態にした
-- PostgreSQLと接続できるようにした
-- DBにSeedでサンプルデータを投入できるようにした
-- コーステーブルのデータをコントローラに引っ張れるようにした
-- ひとまず、コースの一覧ページにDBから引っ張ってきたデータをフロントで表示できるようにした
-- サンプルデータオブジェクトの外部化、Constantsディレクトリの配置
-- JsonのResponse時にキャメルケース化
-
-## 今後やりたいこと
-- VideoとCourseの関係を明確化する
-- 動画がコースに所属させるようにし、特定のコースに所属する動画データを取得できるようにしたい
-- フロントをgithubPagesにデプロイしたい
-- バックエンドを、AWSの環境にデプロイ
-- サンプルデータなどをコントローラ直書きではなく、別の箇所から呼び出せるようにしたい
-
-## メモ
-APIは、下記の記述でアクセス可能
-
-## Docker起動
-
-```sh
-docker build -t laravel8-image .
-```
-
-
+## 検証用のコマンド
 ```sh
 # ECS Fargateにアクセスするコマンド
-aws ecs execute-command --region ap-northeast-1 --cluster laravel-cluster-by-tf --task 47b38c81ace544c0824f0c79b5cb94e9 --container laravel-app-container-by-tf --interactive --command "/bin/sh"
+aws ecs execute-command --region ap-northeast-1 --cluster laravel-cluster-by-tf --task ${taskID} --container laravel-app-container-by-tf --interactive --command "/bin/sh"
 ```
 
 ```sh
-ssh -i ~/.ssh/aws-infra-ssh-key.pem ec2-user@00.00.000.000
-
+# 検証用のEC2インスタンスを立てた場合の、sshログインコマンド
 ssh -i ~/.ssh/aws-ssh-key-230805.pem ec2-user@54.64.251.14
 ```
 
 ```sh
-# mysql -u ユーザー名 -p -D データベース名 -h ホスト名またはIPアドレス
-
-mysql -u sample_user -p -D video_learning -h app-db.cqzynshl6n1r.ap-northeast-1.rds.amazonaws.com
-mysql -h ホスト名 -u ユーザー名 -p データベース名
-
-
-psql -h app-db2.cqzynshl6n1r.ap-northeast-1.rds.amazonaws.com -U sample_user -d video_learning
+# DBへのアクセスコマンド
+psql -h ${endpoint} -U sample_user -d video_learning
 ```
 
-```Dockerfile
-FROM php:7.4-fpm
-
-# 必要なライブラリやツールのインストール
-RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    zip \
-    unzip
-
-# Composerのインストール
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# PHP拡張モジュールのインストール
-RUN docker-php-ext-configure zip --with-libzip
-RUN docker-php-ext-install pdo pdo_mysql zip
-
-# Laravelアプリケーションのディレクトリを作成
-WORKDIR /var/www/html
-
-# Laravelアプリケーションのファイルをコピー
-COPY . /var/www/html
-
-# Laravelアプリケーションの依存関係をインストール
-RUN composer install
-
-# Laravelアプリケーションの設定ファイルをコピー（必要に応じて）
-# COPY .env.example .env
-
-# Laravelのキャッシュをクリア
-RUN php artisan optimize
-
-# PHP-FPMを起動
-CMD ["php-fpm"]
-```
-
-```yml
-version: "3"
-services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: laravel8-image
-    container_name: laravel8-container
-    ports:
-      - "80:80"
-    volumes:
-      - ./:/var/www/html/
-```
-
-
-```sh
-# migrateを全てリセットする場合
-php artisan migrate
-
-# Seeder作成
-php artisan make:seeder Seeder名
-
-# Seeding
-php artisan make:seeder SeederName
-
-# seed
-php artisan db:seed
-php artisan db:seed --class=CourseSeeder
-php artisan db:seed --class=VideoSeeder
-
-```
-
-
-```php:api.php
-Route::get('/videos', [VideoController::class, 'index']);
-// http://127.0.0.1:8000/api/videos
-```
-
+---
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
