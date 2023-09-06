@@ -1,18 +1,27 @@
 # 動画教材サンプルWEBサービスのAPIサーバー
 AWS環境にデプロイ済み
 
+## AWSアーキテクチャ構成図
+[AWSアーキテクチャ構成図の画像](https://camo.qiitausercontent.com/e5c2f8bab122d279aba7b8e7c5d2a6b77c0d3329/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f3836373737352f30373939636236352d643831622d343662352d363936362d6439303034366239383337332e706e67)
+
+
 ## エンドポイント（例）
 - [https://kemmy.tokyo/api/courses](https://kemmy.tokyo/api/courses)
-- [https://kemmy.tokyo/api/course/2](https://kemmy.tokyo/api/course/2)
+
 
 ## 環境
 - Laravel Framework 8.83.27
 - PHP 7.4.33
+- PostgreSQL 13.11
+
+## DB接続の環境変数
+- `.env.production`から、ECS Fargateのタスク定義のコンテナの環境変数に記載へと変更しました。
 
 ## フロントエンド側
-https://github.com/kemmy-km/nuxt3-video-learning
+- firebaseにデプロイ済みのNuxt3プロジェクトです。
+- [https://github.com/kemmy-km/nuxt3-video-learning](https://github.com/kemmy-km/nuxt3-video-learning)
 
-## vimeoのURL
+## サンプル動画で使用しているvimeoのURL
 https://vimeo.com/
 
 ## 検証用のコマンド
@@ -30,6 +39,7 @@ ssh -i ~/.ssh/aws-ssh-key-230805.pem ec2-user@54.64.251.14
 # DBへのアクセスコマンド
 psql -h ${endpoint} -U sample_user -d video_learning
 ```
+
 
 ---
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
